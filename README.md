@@ -1,15 +1,11 @@
-# FindWord
+# Client Research
 ## Goal
-- 지정한 폴더 내 있는 텍스트 파일들 특정 단어가 존재하는지 찾기 (Find text files within a specified folder where specific words exist)
+- 클라도 조금 만들어봐야 눈으로도 서버가 제대로 돌아가는지 확인하고, 연습도 될 듯하다.
+- 간단하게 만들어 볼 클라는 어떤 걸 골라야할까?
+- C# 이 그나마 간단하긴 한데... 유니티로 만들기엔 C++을 배운게 아쉽다.
+- 그래서 우선 언리얼 엔진 설치 중
 
-## Stack
-- C# Console (.NET 6)
-
-## Period 
-- 2022-10-19 ~ Present
-
-## Difficulties
-- 여러 목표 단어를 찾고 여러 단어를 제외한 채 결과 내는 걸 구현 중
-
-## Result
-- (2022-10-19) 특정 폴더 내 drop 단어 찾지만 dropping 단어 제외
+## Reference
+- [1인 개발로 경제적 자유 달성하고 건물주 생활하는 개발자 인터뷰](https://www.youtube.com/watch?v=L6TNhTNHRIA) <br>
+이걸 보고 한 계기는 [재호님](https://www.linkedin.com/in/jehokim/)은 예전부터 클라-서버 개발을 함께 해오셨다고 한다. <br>
+물론 웹과 게임 개발은 그 궤를 달리 할 수 있지만 나는 충분히 가능하다 본다.
