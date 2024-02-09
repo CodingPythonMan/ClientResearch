@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Rolda",
+			"Path": "..\\Source\\Rolda.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "RoldaEditor",
+			"Path": "..\\Source\\RoldaEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

@@ -8,4 +8,5 @@
 ## Reference
 - [1인 개발로 경제적 자유 달성하고 건물주 생활하는 개발자 인터뷰](https://www.youtube.com/watch?v=L6TNhTNHRIA) <br>
 이걸 보고 한 계기는 [재호님](https://www.linkedin.com/in/jehokim/)은 예전부터 클라-서버 개발을 함께 해오셨다고 한다. <br>
+서버만 개발하던 내가 좀 부지런하지 않게 느껴졌다. 예전 Rookiss님도 그런 걸 생각했었는데...<br>
 물론 웹과 게임 개발은 그 궤를 달리 할 수 있지만 나는 충분히 가능하다 본다.
