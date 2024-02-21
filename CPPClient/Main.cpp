@@ -1,3 +1,4 @@
+#include "Network.h"
 #include <windows.h>
 #include <iostream>
 #include "Player.h"
@@ -6,6 +7,17 @@ int main()
 {
 	Player player;
 
+	printf("접속할 IP 주소를 입력하세요 : ");
+	WCHAR IP[16];
+	wscanf_s(L"%s", IP, 16);
+
+	NetworkInit();
+	Connect(IP);
+
+	Chat();
+
+
+	/*
 	while (1)
 	{
 		system("cls");
@@ -17,5 +29,5 @@ int main()
 
 		std::cout << "---------------------------------------------------------" << "\n";
 		Sleep(1000);
-	}
+	}*/
 }

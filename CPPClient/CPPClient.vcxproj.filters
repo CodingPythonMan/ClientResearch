@@ -27,6 +27,9 @@
     <ClCompile Include="Item.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RingBuffer.h">
@@ -40,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
