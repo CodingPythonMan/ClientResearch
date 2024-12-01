@@ -328,3 +328,12 @@ __pycache__/
 
 # End of https://www.gitignore.io/api/c++,visualstudio
 # *.filters
+
+#언리얼 추가
+/MyFirst/Binaries/
+/MyFirst/Intermediate/
+/MyFirst/Saved/
+/MyFirst/DerivedDataCache/
+*.uprojectdirs
+*.log
+*.vsconfig
