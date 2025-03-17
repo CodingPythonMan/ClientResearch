@@ -11,6 +11,6 @@ config_version=5
 [application]
 
 config/name="Robo"
-run/main_scene="uid://bq4xyovh23vbt"
+run/main_scene="uid://dhsta6emxhxkn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"

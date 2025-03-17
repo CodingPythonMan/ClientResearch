@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2y2cjhv0b37u"
-path="res://.godot/imported/medieval_tilesheet.png-203010cd0e11a8fc690a3ec173e83308.ctex"
+uid="uid://cbh5hwnyblbb2"
+path="res://.godot/imported/character_femalePerson_idle.png-051e03fec839bf0cbad285255f61a3e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://medieval-rts/Tilesheet/medieval_tilesheet.png"
-dest_files=["res://.godot/imported/medieval_tilesheet.png-203010cd0e11a8fc690a3ec173e83308.ctex"]
+source_file="res://Assets/Characters/FemalePerson/PNG/Poses/character_femalePerson_idle.png"
+dest_files=["res://.godot/imported/character_femalePerson_idle.png-051e03fec839bf0cbad285255f61a3e8.ctex"]
 
 [params]
 
