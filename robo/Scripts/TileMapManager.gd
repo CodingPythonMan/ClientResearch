@@ -32,10 +32,9 @@ func generate_large_map():
 				
 				for x in range(map_width):
 					for y in range(map_height):
-						var tileIndex = randi() % tile_count  # 🔹 랜덤 타일 선택
+						var tileIndex = 0  # 🔹 랜덤 타일 선택
 						var atlas_coords = tile_source.get_tile_id(tileIndex)  # 🔹 사용 가능한 첫 번째 타일 ID 가져오기
 
-						print("타일 배치 : x =", x, ", y =", y, "| source_id:", source_id, "| atlas_coords:", atlas_coords)
 						tile_map.set_cell(0, Vector2i(x, y), source_id, atlas_coords)
 
 				# 배치된 타일 개수 확인
@@ -52,10 +51,10 @@ func generate_large_map():
 		print("⚠️ TileSet이 비어 있어 타일을 배치할 수 없습니다!")
 
 func calculate_map_boundaries():
-	map_min_x = tile_map.position.x
-	map_max_x = tile_map.position.x + (map_width * tile_size) - tile_size
-	map_min_y = tile_map.position.y
-	map_max_y = tile_map.position.y + (map_height * tile_size) - tile_size
+	map_min_x = position.x
+	map_max_x = position.x + (map_width * tile_size) - tile_size
+	map_min_y = position.y
+	map_max_y = position.y + (map_height * tile_size) - tile_size
 
 # 🔹 플레이어 위치를 맵 중앙에 배치
 func set_player_start_position():

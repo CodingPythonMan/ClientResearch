@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed: float = 200.0
 @onready var sprite = $AnimatedSprite2D  
-@onready var tile_map_manager = get_node("../TileMapManager")  # 🔹 TileMapManager 노드를 직접 가져오기
+@onready var tile_map_manager = get_node("../TileMap")
 
 func _ready():
 	if tile_map_manager:
