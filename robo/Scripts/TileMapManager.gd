@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var tile_size: int = 16
-@export var map_width: int = 1000
-@export var map_height: int = 1000
+@export var map_width: int = 200
+@export var map_height: int = 200
 
 @onready var tile_map: TileMap = get_node("../TileMap")  # 🔹 부모 노드에서 자동으로 `TileMap`을 찾음
 @onready var player: CharacterBody2D = get_node("../Player")
@@ -58,7 +58,7 @@ func calculate_map_boundaries():
 
 # 🔹 플레이어 위치를 맵 중앙에 배치
 func set_player_start_position():
-	var start_x = (map_width * tile_size) / 2  # 중앙 X 위치
-	var start_y = (map_height * tile_size) / 2  # 중앙 Y 위치
+	var start_x = float(map_width * tile_size) / 2  # 중앙 X 위치
+	var start_y = float(map_height * tile_size) / 2  # 중앙 Y 위치
 	player.position = Vector2(start_x, start_y)
 	print("🔹 플레이어 시작 위치:", player.position)
