@@ -337,3 +337,6 @@ __pycache__/
 *.uprojectdirs
 *.log
 *.vsconfig
+
+*.zip
+*.pck
