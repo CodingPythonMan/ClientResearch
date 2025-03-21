@@ -2,6 +2,8 @@ extends Node
 
 var client = StreamPeerTCP.new()
 var connected = false
+var test_messages = ["Hello 1", "Hello 2", "Hello 3", "Hello 4", "Hello 5"]
+var message_index = 0
 
 func _ready():
 	print("🔄 서버 연결 시도...")
@@ -17,10 +19,10 @@ func _process(_delta):
 		if client.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 			print("✅ 서버에 정상적으로 연결됨!")
 			connected = true
-			send_data("Hello Server")  # ✅ 서버 연결 후 자동으로 실행
+			send_multiple_data()  # ✅ 여러 개의 메시지를 서버로 전송
 			
-			 # ✅ 서버로부터 데이터를 수신할 수 있도록 처리
-	if client.get_available_bytes() > 0:
+	# 서버 응답 처리
+	while client.get_available_bytes() > 0:
 		var packet_size = client.get_u32()  # 4바이트 길이 정보 읽기
 		var data = client.get_utf8_string(packet_size)  # 해당 크기만큼 문자열 읽기
 		print("📥 서버로부터 받은 메시지:", data)
@@ -32,3 +34,9 @@ func send_data(data: String):
 
 	client.put_utf8_string(data)
 	print("📤 데이터 전송됨:", data)
+
+# 여러 개의 메시지를 서버로 전송하는 함수
+func send_multiple_data():
+	for msg in test_messages:
+		send_data(msg)
+		await get_tree().create_timer(0.5).timeout  # 0.5초 간격으로 전송 (서버 부하 방지)
