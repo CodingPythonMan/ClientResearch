@@ -4,13 +4,17 @@ extends CharacterBody2D
 @onready var sprite = $AnimatedSprite2D  
 @onready var tile_map_manager = get_node("../TileMap")
 
-var last_position = Vector2.ZERO  # 이전 위치 저장
+#var last_position = Vector2.ZERO  # 이전 위치 저장
+var is_local = true
 
 func _ready():
 	if tile_map_manager:
 		tile_map_manager.calculate_map_boundaries()
 
 func _process(_delta):
+	if not is_local:
+		return
+	
 	var move_vector = Vector2.ZERO
 
 	if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D):
@@ -36,9 +40,9 @@ func _process(_delta):
 	velocity = move_vector
 	move_and_slide()
 	
-	if position != last_position:
-		print("(X, Y) Pos : (%.2f, %.2f)" % [position.x, position.y])
-		last_position = position  # 이전 위치 업데이트
+	#if position != last_position:
+	#	print("(X, Y) Pos : (%.2f, %.2f)" % [position.x, position.y])
+	#	last_position = position  # 이전 위치 업데이트
 
 	# 🔹 맵 이동 제한
 	if tile_map_manager:

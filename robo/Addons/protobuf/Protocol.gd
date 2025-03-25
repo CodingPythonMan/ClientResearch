@@ -776,4 +776,247 @@ class SCEchoAck:
 			return PB_ERR.PARSE_INCOMPLETE
 		return result
 	
+class CSEnterGameReq:
+	func _init():
+		var service
+		
+	var data = {}
+	
+	func _to_string() -> String:
+		return PBPacker.message_to_string(data)
+		
+	func to_bytes() -> PackedByteArray:
+		return PBPacker.pack_message(data)
+		
+	func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+		var cur_limit = bytes.size()
+		if limit != -1:
+			cur_limit = limit
+		var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+		if result == cur_limit:
+			if PBPacker.check_required(data):
+				if limit == -1:
+					return PB_ERR.NO_ERRORS
+			else:
+				return PB_ERR.REQUIRED_FIELDS
+		elif limit == -1 && result > 0:
+			return PB_ERR.PARSE_INCOMPLETE
+		return result
+	
+class SCEnterGameAck:
+	func _init():
+		var service
+		
+		__UniqueID = PBField.new("UniqueID", PB_DATA_TYPE.INT64, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT64])
+		service = PBServiceField.new()
+		service.field = __UniqueID
+		data[__UniqueID.tag] = service
+		
+		__X = PBField.new("X", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+		service = PBServiceField.new()
+		service.field = __X
+		data[__X.tag] = service
+		
+		__Y = PBField.new("Y", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+		service = PBServiceField.new()
+		service.field = __Y
+		data[__Y.tag] = service
+		
+	var data = {}
+	
+	var __UniqueID: PBField
+	func has_UniqueID() -> bool:
+		if __UniqueID.value != null:
+			return true
+		return false
+	func get_UniqueID() -> int:
+		return __UniqueID.value
+	func clear_UniqueID() -> void:
+		data[1].state = PB_SERVICE_STATE.UNFILLED
+		__UniqueID.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT64]
+	func set_UniqueID(value : int) -> void:
+		__UniqueID.value = value
+	
+	var __X: PBField
+	func has_X() -> bool:
+		if __X.value != null:
+			return true
+		return false
+	func get_X() -> int:
+		return __X.value
+	func clear_X() -> void:
+		data[2].state = PB_SERVICE_STATE.UNFILLED
+		__X.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+	func set_X(value : int) -> void:
+		__X.value = value
+	
+	var __Y: PBField
+	func has_Y() -> bool:
+		if __Y.value != null:
+			return true
+		return false
+	func get_Y() -> int:
+		return __Y.value
+	func clear_Y() -> void:
+		data[3].state = PB_SERVICE_STATE.UNFILLED
+		__Y.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+	func set_Y(value : int) -> void:
+		__Y.value = value
+	
+	func _to_string() -> String:
+		return PBPacker.message_to_string(data)
+		
+	func to_bytes() -> PackedByteArray:
+		return PBPacker.pack_message(data)
+		
+	func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+		var cur_limit = bytes.size()
+		if limit != -1:
+			cur_limit = limit
+		var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+		if result == cur_limit:
+			if PBPacker.check_required(data):
+				if limit == -1:
+					return PB_ERR.NO_ERRORS
+			else:
+				return PB_ERR.REQUIRED_FIELDS
+		elif limit == -1 && result > 0:
+			return PB_ERR.PARSE_INCOMPLETE
+		return result
+	
+class CSMoveReq:
+	func _init():
+		var service
+		
+	var data = {}
+	
+	func _to_string() -> String:
+		return PBPacker.message_to_string(data)
+		
+	func to_bytes() -> PackedByteArray:
+		return PBPacker.pack_message(data)
+		
+	func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+		var cur_limit = bytes.size()
+		if limit != -1:
+			cur_limit = limit
+		var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+		if result == cur_limit:
+			if PBPacker.check_required(data):
+				if limit == -1:
+					return PB_ERR.NO_ERRORS
+			else:
+				return PB_ERR.REQUIRED_FIELDS
+		elif limit == -1 && result > 0:
+			return PB_ERR.PARSE_INCOMPLETE
+		return result
+	
+class SCMoveAck:
+	func _init():
+		var service
+		
+	var data = {}
+	
+	func _to_string() -> String:
+		return PBPacker.message_to_string(data)
+		
+	func to_bytes() -> PackedByteArray:
+		return PBPacker.pack_message(data)
+		
+	func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+		var cur_limit = bytes.size()
+		if limit != -1:
+			cur_limit = limit
+		var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+		if result == cur_limit:
+			if PBPacker.check_required(data):
+				if limit == -1:
+					return PB_ERR.NO_ERRORS
+			else:
+				return PB_ERR.REQUIRED_FIELDS
+		elif limit == -1 && result > 0:
+			return PB_ERR.PARSE_INCOMPLETE
+		return result
+	
+class SCMoveNoti:
+	func _init():
+		var service
+		
+		__UniqueID = PBField.new("UniqueID", PB_DATA_TYPE.INT64, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT64])
+		service = PBServiceField.new()
+		service.field = __UniqueID
+		data[__UniqueID.tag] = service
+		
+		__X = PBField.new("X", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+		service = PBServiceField.new()
+		service.field = __X
+		data[__X.tag] = service
+		
+		__Y = PBField.new("Y", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+		service = PBServiceField.new()
+		service.field = __Y
+		data[__Y.tag] = service
+		
+	var data = {}
+	
+	var __UniqueID: PBField
+	func has_UniqueID() -> bool:
+		if __UniqueID.value != null:
+			return true
+		return false
+	func get_UniqueID() -> int:
+		return __UniqueID.value
+	func clear_UniqueID() -> void:
+		data[1].state = PB_SERVICE_STATE.UNFILLED
+		__UniqueID.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT64]
+	func set_UniqueID(value : int) -> void:
+		__UniqueID.value = value
+	
+	var __X: PBField
+	func has_X() -> bool:
+		if __X.value != null:
+			return true
+		return false
+	func get_X() -> int:
+		return __X.value
+	func clear_X() -> void:
+		data[2].state = PB_SERVICE_STATE.UNFILLED
+		__X.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+	func set_X(value : int) -> void:
+		__X.value = value
+	
+	var __Y: PBField
+	func has_Y() -> bool:
+		if __Y.value != null:
+			return true
+		return false
+	func get_Y() -> int:
+		return __Y.value
+	func clear_Y() -> void:
+		data[3].state = PB_SERVICE_STATE.UNFILLED
+		__Y.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+	func set_Y(value : int) -> void:
+		__Y.value = value
+	
+	func _to_string() -> String:
+		return PBPacker.message_to_string(data)
+		
+	func to_bytes() -> PackedByteArray:
+		return PBPacker.pack_message(data)
+		
+	func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+		var cur_limit = bytes.size()
+		if limit != -1:
+			cur_limit = limit
+		var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+		if result == cur_limit:
+			if PBPacker.check_required(data):
+				if limit == -1:
+					return PB_ERR.NO_ERRORS
+			else:
+				return PB_ERR.REQUIRED_FIELDS
+		elif limit == -1 && result > 0:
+			return PB_ERR.PARSE_INCOMPLETE
+		return result
+	
 ################ USER DATA END #################
