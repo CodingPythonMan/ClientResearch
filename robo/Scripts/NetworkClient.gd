@@ -15,37 +15,47 @@ func _ready():
 		print("❌ 연결 실패: ", err)
 
 func _process(_delta):
-	if connected == false:
+	if not connected:
 		client.poll()  # 연결 상태 확인
 		if client.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 			print("✅ 서버에 정상적으로 연결됨!")
 			connected = true
-			send_multiple_data()  # ✅ 여러 개의 메시지를 서버로 전송
-			
+			send_multiple_data()  # 여러 개의 메시지를 서버로 전송
+
 	# 서버 응답 처리
-	while client.get_available_bytes() > 0:
-		var packet_size = client.get_u32()  # 4바이트 길이 정보 읽기
-		var data = client.get_data(packet_size)  # 해당 크기만큼 문자열 읽기
-		# Create unpacked class (message)
-		var ack = Protocol.SCEchoAck.new()
-		# Unpack byte sequence to class (message) A.
-		# Use from_bytes(PoolByteArray my_byte_sequence) method
-		var result_code = ack.from_bytes(data)
-		# result_code must be checked (see Unpack result codes section)
-		if result_code == Protocol.PB_ERR.NO_ERRORS:
-			print("OK")
-		else:
-			return
-					
-		print("📥 서버로부터 받은 메시지:", ack.get_text())
+	while client.get_available_bytes() >= 4:  # 최소 헤더 크기 확보
+		var size_val = client.get_u16()  # 2바이트 크기 읽기
+		var msg_id = client.get_u16()    # 2바이트 메시지 ID 읽기
+
+		# 헤더에 포함된 전체 패킷 크기가 헤더를 포함한다면:
+		var data_size = size_val - 4
+
+		# 데이터가 모두 도착했는지 확인
+		if client.get_available_bytes() < data_size:
+			# 데이터가 다 도착하지 않았으면 break
+			break
+
+		var data = client.get_data(data_size)
+		var result_code = -1
+
+		# msg_id에 따라 메시지 클래스 생성 및 파싱 (예시)
+		match msg_id:
+			2:
+				var ack = Protocol.SCEchoAck.new()
+				result_code = ack.from_bytes(data)
+				if result_code == Protocol.PB_ERR.NO_ERRORS:
+					print("📥 서버로부터 받은 메시지:", ack.get_text())
+				else:
+					print("패킷 파싱 오류:", result_code)
+			_:
+				print("알 수 없는 메시지 ID:", msg_id)
+				# 필요시 해당 데이터를 건너뛰거나 처리할 수 있음.
 
 # 여러 개의 메시지를 서버로 전송하는 함수
 func send_multiple_data():
 	for msg in test_messages:
 		var req = Protocol.CSEchoReq.new()
 		req.set_text(msg)
-		var packed_req = req.to_bytes()
-		client.put_data(packed_req)
 		
 		# Protobuf 메시지를 직렬화하여 바이트 배열로 만듭니다.
 		var message_bytes = req.to_bytes()
@@ -58,21 +68,14 @@ func send_multiple_data():
 		var header = PackedByteArray()
 		header.resize(4)
 
-		# 패킷 크기를 2바이트로 변환 (여기서는 Big Endian으로 처리)
-		header[0] = (packet_size >> 8) & 0xFF
-		header[1] = packet_size & 0xFF
-		
-		print("📤 header 확인:", header)
+		header[0] = packet_size & 0xFF
+		header[1] = (packet_size >> 8) & 0xFF
 
-		# 프로토콜 ID도 2바이트로 변환
-		header[2] = (protocol_id >> 8) & 0xFF
-		header[3] = protocol_id & 0xFF
-		
-		print("📤 header 확인:", header)
+		header[2] = protocol_id & 0xFF
+		header[3] = (protocol_id >> 8) & 0xFF
 
 		# 전체 패킷: 헤더 + 메시지 데이터
 		var full_packet = header + message_bytes
 		client.put_data(full_packet)
-		print("📤 데이터 전송됨:", full_packet)
 		
 		await get_tree().create_timer(0.5).timeout  # 0.5초 간격으로 전송 (서버 부하 방지)
