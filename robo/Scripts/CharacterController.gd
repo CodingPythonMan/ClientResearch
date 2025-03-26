@@ -5,16 +5,12 @@ extends CharacterBody2D
 @onready var tile_map_manager = get_node("../TileMap")
 
 #var last_position = Vector2.ZERO  # 이전 위치 저장
-var is_local = true
 
 func _ready():
 	if tile_map_manager:
 		tile_map_manager.calculate_map_boundaries()
 
 func _process(_delta):
-	if not is_local:
-		return
-	
 	var move_vector = Vector2.ZERO
 
 	if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D):
