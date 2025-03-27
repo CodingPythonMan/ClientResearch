@@ -2,6 +2,7 @@ extends Node
 
 const Protocol = preload("res://Addons/protobuf/Protocol.gd")
 
+
 var mClient = StreamPeerTCP.new()
 var mConnected = false
 var test_messages = ["Hello 1", "Hello 2", "Hello 3", "Hello 4", "Hello 5"]
@@ -60,7 +61,6 @@ func _process(_delta):
 		
 		var result_code = -1
 		# 메시지 ID에 따른 처리
-
 		# msg_id에 따라 메시지 클래스 생성 및 파싱 (예시)
 		match msgID:
 			2:
@@ -71,22 +71,62 @@ func _process(_delta):
 					print("📥 서버로부터 받은 메시지:", str(ack.get_text()))
 				else:
 					print("패킷 파싱 오류:", result_code)
-			4:  # EnterGame 패킷
+			4:  # SC_EnterGameAck 패킷
 				var ack = Protocol.SCEnterGameAck.new()
 				result_code = ack.from_bytes(payload)
 				if result_code == Protocol.PB_ERR.NO_ERRORS:
 					var x = ack.get_X()
 					var y = ack.get_Y()
-					print("EnterGame 패킷 수신됨, 좌표:(%d, %d)" % [x, y])
 					# 플레이어 씬을 인스턴스화하여 위치 설정
-					var player_scene = preload("res://Scenes/OtherPlayer.tscn")
-					var player_instance = player_scene.instantiate()
-					player_instance.global_position = Vector2(x, y)
-					player_instance.z_index = 2  # 원하는 값으로 z index 조정
-					# 예를 들어, 현재 씬의 하위 노드로 추가
-					add_child(player_instance)
-				else:
-					print("패킷 파싱 오류:", result_code)
+					var playerScene = preload("res://Scenes/Player.tscn")
+					var player = playerScene.instantiate()
+					player.global_position = Vector2(x, y)
+					player.z_index = 2  # 원하는 값으로 z index 조정
+					player.visible = true
+					get_tree().current_scene.add_child(player)
+					
+			5:  # SC_EnterGameNoti 패킷
+				var ack = Protocol.SCEnterGameNoti.new()
+				result_code = ack.from_bytes(payload)
+				if result_code == Protocol.PB_ERR.NO_ERRORS:
+					var playerUID = ack.get_UniqueID()
+					var x = ack.get_X()
+					var y = ack.get_Y()
+					# 플레이어 씬을 인스턴스화하여 위치 설정
+					var playerScene = preload("res://Scenes/OtherPlayer.tscn")
+					var otherPlayer = playerScene.instantiate()
+					otherPlayer.global_position = Vector2(x, y)
+					# 캐릭터 매니저에 UID로 등록 (CharacterManager는 Autoload로 등록되어 있다고 가정)
+					CharacterManager.registerCharacter(playerUID, otherPlayer)
+					# 씬 트리에 추가하여 화면에 표시
+					get_tree().current_scene.add_child(otherPlayer)
+			7:  # SC_MoveNoti 패킷
+				var noti = Protocol.SCMoveNoti.new()
+				result_code = noti.from_bytes(payload)
+				if result_code == Protocol.PB_ERR.NO_ERRORS:
+					var playerUID = noti.get_UniqueID()
+					var x = noti.get_X()
+					var y = noti.get_Y()
+
+					# 이미 등록된 캐릭터가 있는지 확인
+					var otherPlayer = CharacterManager.getCharacter(playerUID)
+					
+			9:  # SC_StopNoti 패킷
+				var noti = Protocol.SCStopNoti.new()
+				result_code = noti.from_bytes(payload)
+				if result_code == Protocol.PB_ERR.NO_ERRORS:
+					var playerUID = noti.get_UniqueID()
+					var x = noti.get_X()
+					var y = noti.get_Y()
+					
+					# 이미 등록된 캐릭터가 있는지 확인
+					var otherPlayer = CharacterManager.getCharacter(playerUID)
+					# 캐릭터의 위치 업데이트 (정지 상태)
+					otherPlayer.global_position = Vector2(x, y)
+					
+					# 예: 정지 상태일 때 idle 애니메이션 재생 (캐릭터 노드에 해당 메서드가 있다면)
+					if otherPlayer.has_method("SetIdle"):
+						otherPlayer.SetIdle()
 			_:
 				print("알 수 없는 메시지 ID:", msgID)
 

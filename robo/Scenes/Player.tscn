@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cbh5hwnyblbb2" path="res://Assets/Characters/FemalePerson/PNG/Poses/character_femalePerson_idle.png" id="1_kyqiw"]
 [ext_resource type="Texture2D" uid="uid://bxssyvn4tsj2" path="res://Assets/Characters/FemalePerson/Tilesheet/character_femalePerson_sheet.png" id="2_gntrk"]
-[ext_resource type="Script" uid="uid://bqrvpn4coi61p" path="res://Scripts/CharacterController.gd" id="3_gntrk"]
+[ext_resource type="Script" uid="uid://bqrvpn4coi61p" path="res://Scripts/Character/CharacterController.gd" id="3_gntrk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dewec"]
 atlas = ExtResource("2_gntrk")
@@ -79,6 +79,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gntrk"]
 
 [node name="Player" type="CharacterBody2D"]
+visible = false
 script = ExtResource("3_gntrk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

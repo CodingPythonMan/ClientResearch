@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var tile_map_manager = get_node("../TileMap")
 
 #var last_position = Vector2.ZERO  # 이전 위치 저장
+var uniqueID : int = 0
 
 func _ready():
 	if tile_map_manager:
