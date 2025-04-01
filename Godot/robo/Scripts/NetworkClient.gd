@@ -78,12 +78,10 @@ func _process(_delta):
 					var x = ack.get_X()
 					var y = ack.get_Y()
 					# 플레이어 씬을 인스턴스화하여 위치 설정
-					var playerScene = preload("res://Scenes/Player.tscn")
-					var player = playerScene.instantiate()
-					player.global_position = Vector2(x, y)
-					player.z_index = 2  # 원하는 값으로 z index 조정
-					player.visible = true
-					get_tree().current_scene.add_child(player)
+					var player = get_tree().current_scene.get_node("Player")
+					if player:
+						player.visible = true
+						player.global_position = Vector2(x, y)
 					
 			5:  # SC_EnterGameNoti 패킷
 				var ack = Protocol.SCEnterGameNoti.new()
