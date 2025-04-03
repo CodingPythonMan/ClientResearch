@@ -1,8 +1,5 @@
 extends Node
 
-const Protocol = preload("res://Addons/protobuf/Protocol.gd")
-
-
 var mClient = StreamPeerTCP.new()
 var mConnected = false
 var test_messages = ["Hello 1", "Hello 2", "Hello 3", "Hello 4", "Hello 5"]
@@ -94,8 +91,9 @@ func _process(_delta):
 					var playerScene = preload("res://Scenes/OtherPlayer.tscn")
 					var otherPlayer = playerScene.instantiate()
 					otherPlayer.global_position = Vector2(x, y)
+					otherPlayer.visible = true
 					# 캐릭터 매니저에 UID로 등록 (CharacterManager는 Autoload로 등록되어 있다고 가정)
-					CharacterManager.registerCharacter(playerUID, otherPlayer)
+					CharacterManager.RegisterCharacter(playerUID, otherPlayer)
 					# 씬 트리에 추가하여 화면에 표시
 					get_tree().current_scene.add_child(otherPlayer)
 			7:  # SC_MoveNoti 패킷
