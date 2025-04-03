@@ -875,12 +875,22 @@ class SCEnterGameNoti:
 		service.field = __UniqueID
 		data[__UniqueID.tag] = service
 		
-		__X = PBField.new("X", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
+		__Direction = PBField.new("Direction", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+		service = PBServiceField.new()
+		service.field = __Direction
+		data[__Direction.tag] = service
+		
+		__IsMove = PBField.new("IsMove", PB_DATA_TYPE.BOOL, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL])
+		service = PBServiceField.new()
+		service.field = __IsMove
+		data[__IsMove.tag] = service
+		
+		__X = PBField.new("X", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
 		service = PBServiceField.new()
 		service.field = __X
 		data[__X.tag] = service
 		
-		__Y = PBField.new("Y", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
+		__Y = PBField.new("Y", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 5, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
 		service = PBServiceField.new()
 		service.field = __Y
 		data[__Y.tag] = service
@@ -900,6 +910,32 @@ class SCEnterGameNoti:
 	func set_UniqueID(value : int) -> void:
 		__UniqueID.value = value
 	
+	var __Direction: PBField
+	func has_Direction() -> bool:
+		if __Direction.value != null:
+			return true
+		return false
+	func get_Direction() -> int:
+		return __Direction.value
+	func clear_Direction() -> void:
+		data[2].state = PB_SERVICE_STATE.UNFILLED
+		__Direction.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+	func set_Direction(value : int) -> void:
+		__Direction.value = value
+	
+	var __IsMove: PBField
+	func has_IsMove() -> bool:
+		if __IsMove.value != null:
+			return true
+		return false
+	func get_IsMove() -> bool:
+		return __IsMove.value
+	func clear_IsMove() -> void:
+		data[3].state = PB_SERVICE_STATE.UNFILLED
+		__IsMove.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
+	func set_IsMove(value : bool) -> void:
+		__IsMove.value = value
+	
 	var __X: PBField
 	func has_X() -> bool:
 		if __X.value != null:
@@ -908,7 +944,7 @@ class SCEnterGameNoti:
 	func get_X() -> float:
 		return __X.value
 	func clear_X() -> void:
-		data[2].state = PB_SERVICE_STATE.UNFILLED
+		data[4].state = PB_SERVICE_STATE.UNFILLED
 		__X.value = DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT]
 	func set_X(value : float) -> void:
 		__X.value = value
@@ -921,7 +957,7 @@ class SCEnterGameNoti:
 	func get_Y() -> float:
 		return __Y.value
 	func clear_Y() -> void:
-		data[3].state = PB_SERVICE_STATE.UNFILLED
+		data[5].state = PB_SERVICE_STATE.UNFILLED
 		__Y.value = DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT]
 	func set_Y(value : float) -> void:
 		__Y.value = value
@@ -1001,12 +1037,17 @@ class SCMoveNoti:
 		service.field = __UniqueID
 		data[__UniqueID.tag] = service
 		
-		__X = PBField.new("X", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
+		__Direction = PBField.new("Direction", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+		service = PBServiceField.new()
+		service.field = __Direction
+		data[__Direction.tag] = service
+		
+		__X = PBField.new("X", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
 		service = PBServiceField.new()
 		service.field = __X
 		data[__X.tag] = service
 		
-		__Y = PBField.new("Y", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
+		__Y = PBField.new("Y", PB_DATA_TYPE.FLOAT, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT])
 		service = PBServiceField.new()
 		service.field = __Y
 		data[__Y.tag] = service
@@ -1026,6 +1067,19 @@ class SCMoveNoti:
 	func set_UniqueID(value : int) -> void:
 		__UniqueID.value = value
 	
+	var __Direction: PBField
+	func has_Direction() -> bool:
+		if __Direction.value != null:
+			return true
+		return false
+	func get_Direction() -> int:
+		return __Direction.value
+	func clear_Direction() -> void:
+		data[2].state = PB_SERVICE_STATE.UNFILLED
+		__Direction.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+	func set_Direction(value : int) -> void:
+		__Direction.value = value
+	
 	var __X: PBField
 	func has_X() -> bool:
 		if __X.value != null:
@@ -1034,7 +1088,7 @@ class SCMoveNoti:
 	func get_X() -> float:
 		return __X.value
 	func clear_X() -> void:
-		data[2].state = PB_SERVICE_STATE.UNFILLED
+		data[3].state = PB_SERVICE_STATE.UNFILLED
 		__X.value = DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT]
 	func set_X(value : float) -> void:
 		__X.value = value
@@ -1047,7 +1101,7 @@ class SCMoveNoti:
 	func get_Y() -> float:
 		return __Y.value
 	func clear_Y() -> void:
-		data[3].state = PB_SERVICE_STATE.UNFILLED
+		data[4].state = PB_SERVICE_STATE.UNFILLED
 		__Y.value = DEFAULT_VALUES_3[PB_DATA_TYPE.FLOAT]
 	func set_Y(value : float) -> void:
 		__Y.value = value
