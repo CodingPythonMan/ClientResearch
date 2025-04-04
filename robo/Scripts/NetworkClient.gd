@@ -4,13 +4,21 @@ var mClient = StreamPeerTCP.new()
 var mConnected = false
 var test_messages = ["Hello 1", "Hello 2", "Hello 3", "Hello 4", "Hello 5"]
 
+var Protocol = preload("res://Addons/protobuf/Protocol.gd")
+
 const HEADER_SIZE = 4
 
 var mPacketBuffer = PackedByteArray()  # 클래스 변수로 선언하여 계속 누적
 
+# 플레이어 씬을 인스턴스화하여 위치 설정
+var mPlayer: Node = null
+
+func SetPlayerNode(node) :
+	mPlayer = node
+
 func _ready():
 	print("🔄 서버 연결 시도...")
-	var err = mClient.connect_to_host("127.0.0.1", 1537)
+	var err = mClient.connect_to_host("10.0.0.25", 1537)
 	if err == OK:
 		print("✅ 서버에 연결 요청 성공")
 	else:
@@ -74,11 +82,10 @@ func _process(_delta):
 				if result_code == Protocol.PB_ERR.NO_ERRORS:
 					var x = ack.get_X()
 					var y = ack.get_Y()
-					# 플레이어 씬을 인스턴스화하여 위치 설정
-					var player = get_tree().current_scene.get_node("Player")
-					if player:
-						player.visible = true
-						player.global_position = Vector2(x, y)
+					
+					if mPlayer:
+						mPlayer.visible = true
+						mPlayer.global_position = Vector2(x, y)
 					
 			5:  # SC_EnterGameNoti 패킷
 				var ack = Protocol.SCEnterGameNoti.new()
@@ -87,25 +94,42 @@ func _process(_delta):
 					var playerUID = ack.get_UniqueID()
 					var x = ack.get_X()
 					var y = ack.get_Y()
-					# 플레이어 씬을 인스턴스화하여 위치 설정
+					var dir = ack.get_Direction()
+					var isMove = ack.get_IsMove()
+
 					var playerScene = preload("res://Scenes/OtherPlayer.tscn")
 					var otherPlayer = playerScene.instantiate()
 					otherPlayer.global_position = Vector2(x, y)
 					otherPlayer.visible = true
-					# 캐릭터 매니저에 UID로 등록 (CharacterManager는 Autoload로 등록되어 있다고 가정)
+					otherPlayer.mDirection = dir
+					otherPlayer.mIsMoving = isMove
+
+					if isMove:
+						otherPlayer.SetWalk()
+					else:
+						otherPlayer.SetIdle()
+					
 					CharacterManager.RegisterCharacter(playerUID, otherPlayer)
-					# 씬 트리에 추가하여 화면에 표시
 					get_tree().current_scene.add_child(otherPlayer)
 			7:  # SC_MoveNoti 패킷
 				var noti = Protocol.SCMoveNoti.new()
 				result_code = noti.from_bytes(payload)
-				if result_code == Protocol.PB_ERR.NO_ERRORS:
+				if result_code == Protocol.PB_ERR.NO_ERRORS:	
 					var playerUID = noti.get_UniqueID()
 					var x = noti.get_X()
 					var y = noti.get_Y()
-
+					
+					if mPlayer and mPlayer.mUniqueID == playerUID:
+						mPlayer.global_position = Vector2(x,y)
+						return
+						
 					# 이미 등록된 캐릭터가 있는지 확인
-					var otherPlayer = CharacterManager.getCharacter(playerUID)
+					var otherPlayer = CharacterManager.FindCharacter(playerUID)
+					if otherPlayer:
+						otherPlayer.mDirection = noti.get_Direction()
+						otherPlayer.mIsMoving = true
+						otherPlayer.SetPosition(Vector2(x, y))
+						otherPlayer.SetWalk()
 					
 			9:  # SC_StopNoti 패킷
 				var noti = Protocol.SCStopNoti.new()
@@ -115,13 +139,16 @@ func _process(_delta):
 					var x = noti.get_X()
 					var y = noti.get_Y()
 					
-					# 이미 등록된 캐릭터가 있는지 확인
-					var otherPlayer = CharacterManager.getCharacter(playerUID)
-					# 캐릭터의 위치 업데이트 (정지 상태)
-					otherPlayer.global_position = Vector2(x, y)
+					if mPlayer and mPlayer.mUniqueID == playerUID:
+						mPlayer.global_position = Vector2(x,y)
+						return
 					
-					# 예: 정지 상태일 때 idle 애니메이션 재생 (캐릭터 노드에 해당 메서드가 있다면)
-					if otherPlayer.has_method("SetIdle"):
+					# 이미 등록된 캐릭터가 있는지 확인
+					var otherPlayer = CharacterManager.FindCharacter(playerUID)
+					if otherPlayer:
+						otherPlayer.mIsMoving = false
+						otherPlayer.SetPosition(Vector2(x, y))
+						# 예: 정지 상태일 때 idle 애니메이션 재생 (캐릭터 노드에 해당 메서드가 있다면)
 						otherPlayer.SetIdle()
 			_:
 				print("알 수 없는 메시지 ID:", msgID)

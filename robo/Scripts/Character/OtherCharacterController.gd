@@ -1,55 +1,50 @@
 extends CharacterBody2D
 
-@export var speed: float = 200.0
-@onready var sprite = $AnimatedSprite2D  
-@onready var tile_map_manager = get_node("../TileMap")
+@export var mSpeed: float = 200.0
+@onready var mSprite = $AnimatedSprite2D  
+@onready var mTileMapManager = get_node("../TileMap")
 
-var uniqueID: int = 0
-var direction: int = 0
-
-# 네트워크 업데이트를 위한 target_position 변수
-var targetPosition: Vector2
-
-# 로컬 이동 업데이트를 위한 변수 (예: 입력 기반 이동에 사용)
-const UPDATE_INTERVAL: float = 0.02
-var update_accumulator: float = 0.0
-
-func _ready():
-	sprite.play("idle")
-	targetPosition = position  # 초기값 설정
+var mDirection: int = 0
+var mIsMoving: bool = false
 
 func _process(delta):
-	update_accumulator += delta
-	if update_accumulator >= UPDATE_INTERVAL:
-		# 네트워크에 의해 업데이트된 target_position으로 부드럽게 보간합니다.
-		position = position.move_toward(targetPosition, speed * delta)
-		update_accumulator = 0.0
-	
-	# 맵 경계 클램핑
-	if tile_map_manager:
-		position.x = clamp(position.x, tile_map_manager.map_min_x, tile_map_manager.map_max_x)
-		position.y = clamp(position.y, tile_map_manager.map_min_y, tile_map_manager.map_max_y)
+	if mIsMoving:
+		var velocity: Vector2 = GetDirection(mDirection) * mSpeed
+		position += velocity * delta
 
-# 서버 패킷으로부터 전달받은 좌표를 적용할 때 호출하는 함수
+# 서버가 보내준 위치 보정
 func SetPosition(newPos: Vector2) -> void:
-	targetPosition = newPos
+	position = newPos
 
-# (로컬 입력 기반 이동용) 기존 UpdateMovement 함수 – 로컬 플레이어용으로 사용
+# 로컬 입력 기반 이동 시 호출 (플레이어 직접 조작용)
 func UpdateMovement(dt):
-	var velocity: Vector2 = GetDirection(direction) * speed
+	var velocity: Vector2 = GetDirection(mDirection) * mSpeed
 	position += velocity * dt
-	# 네트워크 업데이트 시에는 target_position과 일치하도록 할 수도 있음
-	targetPosition = position
+	
+func SetWalk():
+	if mSprite:
+		mSprite.play("walk")
+		
+		# 👉 방향에 따라 flip_h 설정
+		match mDirection:
+			0, 1, 7:  # 왼쪽 관련 방향
+				mSprite.flip_h = true
+			3, 4, 5:  # 오른쪽 관련 방향
+				mSprite.flip_h = false
+		
+func SetIdle():
+	if mSprite:
+		mSprite.play("idle")
 
-# 8방향에 따른 벡터 반환 (예시)
+# 8방향 처리
 func GetDirection(dir: int) -> Vector2:
 	match dir:
-		0: return Vector2(-1, 0)           # Left
-		1: return Vector2(-1, -1).normalized()  # Left-Up
-		2: return Vector2(0, -1)           # Up
-		3: return Vector2(1, -1).normalized()   # Right-Up
-		4: return Vector2(1, 0)            # Right
-		5: return Vector2(1, 1).normalized()    # Right-Down
-		6: return Vector2(0, 1)            # Down
-		7: return Vector2(-1, 1).normalized()   # Left-Down
+		0: return Vector2(-1, 0)            # LL
+		1: return Vector2(-1, -1).normalized()
+		2: return Vector2(0, -1)            # UU
+		3: return Vector2(1, -1).normalized()
+		4: return Vector2(1, 0)             # RR
+		5: return Vector2(1, 1).normalized()
+		6: return Vector2(0, 1)             # DD
+		7: return Vector2(-1, 1).normalized()
 		_: return Vector2.ZERO
