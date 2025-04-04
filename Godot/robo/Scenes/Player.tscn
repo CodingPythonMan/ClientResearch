@@ -81,7 +81,6 @@ animations = [{
 [node name="Player" type="CharacterBody2D"]
 visible = false
 script = ExtResource("3_gntrk")
-speed = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_glx4g")

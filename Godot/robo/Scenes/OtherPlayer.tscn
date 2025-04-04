@@ -79,6 +79,7 @@ animations = [{
 
 [node name="OtherPlayer" instance=ExtResource("1_0ikgl")]
 script = ExtResource("2_uv5c4")
+mSpeed = 200.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_f5rb8")

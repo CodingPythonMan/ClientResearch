@@ -22,7 +22,6 @@ config/icon="res://icon.svg"
 
 NetworkClient="*res://Scripts/NetworkClient.gd"
 CharacterManager="*res://Scripts/Character/CharacterManager.gd"
-Protocol="*res://Addons/protobuf/Protocol.gd"
 
 [editor_plugins]
 
