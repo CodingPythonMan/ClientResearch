@@ -36,7 +36,7 @@ IOCP 서버와의 통신을 통해 실시간 멀티플레이 테스트를 진행
 
 ## 📷 스크린샷 (예정)
 
-- UI 및 클라이언트 모습은 개발이 완료된 후 추가 예정입니다.
+![image](https://github.com/user-attachments/assets/918ce10e-0787-495a-a9ab-0ad4c5936008)
 
 ## 🧪 실험 및 학습 목적
 
