@@ -34,9 +34,9 @@ IOCP 서버와의 통신을 통해 실시간 멀티플레이 테스트를 진행
 - 충돌 시 서버에서 통보한 밀림(Push) 처리
 - 맵 상 공유 자원 획득 → 서버 동기화 테스트
 
-## 📷 스크린샷 (예정)
+## 📷 스크린샷
 
-![image](https://github.com/user-attachments/assets/918ce10e-0787-495a-a9ab-0ad4c5936008)
+![image](https://github.com/user-attachments/assets/77ca64ba-6715-4492-85db-fd9277c0c453)
 
 ## 🧪 실험 및 학습 목적
 
