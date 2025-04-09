@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://o28sbfaeqe0s"]
+[gd_scene load_steps=13 format=3 uid="uid://o28sbfaeqe0s"]
 
 [ext_resource type="Texture2D" uid="uid://cbh5hwnyblbb2" path="res://Assets/Characters/FemalePerson/PNG/Poses/character_femalePerson_idle.png" id="1_kyqiw"]
 [ext_resource type="Texture2D" uid="uid://bxssyvn4tsj2" path="res://Assets/Characters/FemalePerson/Tilesheet/character_femalePerson_sheet.png" id="2_gntrk"]
@@ -76,8 +76,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gntrk"]
-
 [node name="Player" type="CharacterBody2D"]
 visible = false
 script = ExtResource("3_gntrk")
@@ -85,8 +83,5 @@ script = ExtResource("3_gntrk")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_glx4g")
 animation = &"idle"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_gntrk")
 
 [node name="Camera2D" type="Camera2D" parent="."]
