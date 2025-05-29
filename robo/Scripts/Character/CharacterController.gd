@@ -12,7 +12,7 @@ var mLastMoveDirection := Vector2.ZERO
 
 func _ready():
 	if tile_map_manager:
-		tile_map_manager.calculate_map_boundaries()
+		tile_map_manager.CalculateMapBoundaries()
 	NetworkClient.SetPlayerNode(self)
 
 func _process(delta):

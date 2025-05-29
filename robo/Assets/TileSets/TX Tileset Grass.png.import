@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2y2cjhv0b37u"
-path="res://.godot/imported/medieval_tilesheet.png-6ab142ce2f002e1232cdab60785412d3.ctex"
+uid="uid://blldu4721su0h"
+path="res://.godot/imported/TX Tileset Grass.png-efcd10a1bf5e9048b2f8e00237a91989.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSets/MedievalRTS/Tilesheet/medieval_tilesheet.png"
-dest_files=["res://.godot/imported/medieval_tilesheet.png-6ab142ce2f002e1232cdab60785412d3.ctex"]
+source_file="res://Assets/TileSets/TX Tileset Grass.png"
+dest_files=["res://.godot/imported/TX Tileset Grass.png-efcd10a1bf5e9048b2f8e00237a91989.ctex"]
 
 [params]
 
