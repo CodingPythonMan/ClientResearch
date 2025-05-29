@@ -13,6 +13,8 @@ var mMapMinY
 var mMapMaxY
 
 func _ready():
+	# 앱 전체의 기본 클리어 컬러를 검은색으로 설정
+	RenderingServer.set_default_clear_color(Color.BLACK)
 	CalculateMapBoundaries()
 	SetPlayerStartPosition()
 
