@@ -2,7 +2,6 @@ extends Node
 
 var mClient = StreamPeerTCP.new()
 var mConnected = false
-var test_messages = ["Hello 1", "Hello 2", "Hello 3", "Hello 4", "Hello 5"]
 
 var Protocol = preload("res://Addons/protobuf/Protocol.gd")
 
@@ -18,7 +17,7 @@ func SetPlayerNode(node) :
 
 func _ready():
 	print("🔄 서버 연결 시도...")
-	var err = mClient.connect_to_host("10.0.0.25", 1537)
+	var err = mClient.connect_to_host("127.0.0.1", 1537)
 	if err == OK:
 		print("✅ 서버에 연결 요청 성공")
 	else:
@@ -172,13 +171,3 @@ func SendPacket(packet : Object, messageID : int):
 	# 전체 패킷: 헤더 + 메시지 데이터
 	var full_packet = header + message_bytes
 	mClient.put_data(full_packet)
-
-# 여러 개의 메시지를 서버로 전송하는 함수
-func send_multiple_data():
-	for msg in test_messages:
-		var req = Protocol.CSEchoReq.new()
-		req.set_text(msg)
-		
-		SendPacket(req, 1);
-		
-		await get_tree().create_timer(0.5).timeout  # 0.5초 간격으로 전송 (서버 부하 방지)

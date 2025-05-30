@@ -28,5 +28,6 @@ func CalculateMapBoundaries():
 func SetPlayerStartPosition():
 	var startX = float(mMapWidth * mTileSize) / 2  # 중앙 X 위치
 	var startY = float(mMapHeight * mTileSize) / 2  # 중앙 Y 위치
-	mPlayer.position = Vector2(startX, startY)
+	#mPlayer.position = Vector2(startX, startY)
+	mPlayer.position = Vector2.ZERO
 	print("🔹 플레이어 시작 위치:", mPlayer.position)
