@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 @export var speed: float = 200.0
 @onready var sprite = $AnimatedSprite2D  
-@onready var tile_map_manager = get_node("../TileMap")
 var Protocol = preload("res://Addons/protobuf/Protocol.gd")
 
 var mUniqueID : int = 0
@@ -11,8 +10,6 @@ var mIsMoving := false
 var mLastMoveDirection := Vector2.ZERO
 
 func _ready():
-	if tile_map_manager:
-		tile_map_manager.CalculateMapBoundaries()
 	NetworkClient.SetPlayerNode(self)
 
 func _process(delta):
@@ -43,7 +40,7 @@ func _process(delta):
 	velocity = move_vector
 	move_and_slide()
 
-	# 👉 이동 방향 변경 감지 시 패킷 전송
+	# 이동 방향 변경 감지 시 패킷 전송
 	var dirNormalized = move_vector.normalized()
 
 	if dirNormalized != mLastMoveDirection:

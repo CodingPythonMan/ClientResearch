@@ -8,6 +8,7 @@ var mTilemapPath: NodePath = "../TileMapLayer"
 func _ready():
 	# 씬을 Play할 때만 실행 (에디터에서 _ready()가 실행되는 것을 방지)
 	if Engine.is_editor_hint():
+		print("이게 호출될 때가 있긴 한가?")
 		return
 
 	print("[ExportTileMap] 시도 중인 mTilemapPath =", mTilemapPath)
@@ -19,7 +20,6 @@ func _ready():
 	#export_tilemap_to_json(tm_node)
 
 func export_tilemap_to_json(tm_node: TileMapLayer):
-	# ───────────────────────────────────────────────────────────────────────────
 	# (1) 타일 하나의 픽셀 크기 가져오기
 	var cell_size: Vector2i = tm_node.tile_set.tile_size
 	# (2) 사용된 셀들의 직사각형 영역 (Rect2i) 가져오기

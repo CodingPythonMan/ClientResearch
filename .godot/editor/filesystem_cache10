@@ -1,0 +1,44 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1748772408
+export_presets.cfg::TextFile/TextFile::-1::1748729294::0::1::::<><><>0<>0<><>::
+icon.svg::CompressedTexture2D/CompressedTexture2D::3816550141492993466::1748729294::1748772315::1::::<><><>0<>0<>6221cc530139935667d2ed146e112c89<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile/TextFile::-1::1748729373::0::1::::<><><>0<>0<><>::
+::res://Addons/::1748729294
+::res://Addons/protobuf/::1748729294
+parser.gd::GDScript/GDScript::2054453366336958642::1748729294::0::1::::<>Node<><>0<>0<><>::
+plugin.cfg::TextFile/TextFile::-1::1748729294::0::1::::<><><>0<>0<><>::
+protobuf_cmdln.gd::GDScript/GDScript::5377170362348662681::1748729294::0::1::::<>SceneTree<><>0<>0<><>::
+protobuf_core.gd::GDScript/GDScript::5300052047473066045::1748729294::0::1::::<>RefCounted<><>0<>0<><>::
+protobuf_ui.gd::GDScript/GDScript::3792726943471402909::1748729294::0::1::::<>EditorPlugin<><>0<>1<><>::
+protobuf_ui_dock.gd::GDScript/GDScript::6265947630920715621::1748729294::0::1::::<>VBoxContainer<><>0<>1<><>::
+protobuf_ui_dock.tscn::PackedScene/PackedScene::5361434491687722678::1748729294::0::1::::<><><>0<>0<><>::res://addons/protobuf/protobuf_ui_dock.gd
+protobuf_util.gd::GDScript/GDScript::5970656692886911353::1748729294::0::1::::<>RefCounted<><>0<>0<><>::
+Protocol.gd::GDScript/GDScript::2286675838588818247::1748729294::0::1::::<>RefCounted<><>0<>0<><>::
+::res://Assets/::1748729294
+::res://Assets/Characters/::1748729294
+::res://Assets/Characters/FemalePerson/::1748729294
+::res://Assets/Characters/FemalePerson/PNG/::1748729294
+::res://Assets/Characters/FemalePerson/PNG/Poses/::1748772315
+character_femaleAdventurer_idle.png::CompressedTexture2D/CompressedTexture2D::9214732954459184471::1748729294::1748772315::1::::<><><>0<>0<>e4aabad3e47715dd4a6307d3af8fc755<>res://.godot/imported/character_femaleAdventurer_idle.png-7824155d4eeba21d3cfa70af7ff77a09.ctex::
+character_femalePerson_idle.png::CompressedTexture2D/CompressedTexture2D::4859316042331361769::1748729294::1748772315::1::::<><><>0<>0<>10b03ac42611bc5a4b7cf7a0bf202b0d<>res://.godot/imported/character_femalePerson_idle.png-051e03fec839bf0cbad285255f61a3e8.ctex::
+::res://Assets/Characters/FemalePerson/Tilesheet/::1748772315
+character_femaleAdventurer_sheet.png::CompressedTexture2D/CompressedTexture2D::4676072061691784777::1748729294::1748772315::1::::<><><>0<>0<>51d32dabaaa248f2a4089dd9b6e2e0ee<>res://.godot/imported/character_femaleAdventurer_sheet.png-dceec3ecde3a8d9cc3ae19fc2a1f7a0c.ctex::
+character_femalePerson_sheet.png::CompressedTexture2D/CompressedTexture2D::118795875772970077::1748729294::1748772315::1::::<><><>0<>0<>c19e0b2ea1b0c9c0901679a8cf62c6c8<>res://.godot/imported/character_femalePerson_sheet.png-9366ad69a510bdc5b273fcca27eca29f.ctex::
+character_femalePerson_sheet.xml::TextFile/TextFile::-1::1748729294::0::1::::<><><>0<>0<><>::
+::res://Assets/TileSets/::1748772315
+TX Props.png::CompressedTexture2D/CompressedTexture2D::6760929468879463108::1748729889::1748772315::1::::<><><>0<>0<>3e5ffb8bc23e58d6c4aaff4e57dd0765<>res://.godot/imported/TX Props.png-de2ea0929dcc46d0800eefbb3eee24ea.ctex::
+TX Tileset Grass.png::CompressedTexture2D/CompressedTexture2D::3181425559735640249::1748729294::1748772315::1::::<><><>0<>0<>1a2a96ec24c9a5880bbc8669dffde786<>res://.godot/imported/TX Tileset Grass.png-efcd10a1bf5e9048b2f8e00237a91989.ctex::
+TX Tileset Wall.png::CompressedTexture2D/CompressedTexture2D::5447476350511631426::1748729294::1748772315::1::::<><><>0<>0<>4255772300c92084922acca156a3c2f2<>res://.godot/imported/TX Tileset Wall.png-4c63dd6ad3e760c59d3e738ad281ebe3.ctex::
+::res://Scenes/::1748772392
+OtherPlayer.tscn::PackedScene::2597132486587970551::1748772392::0::1::::<><><>0<>0<><>::uid://o28sbfaeqe0s::::res://Scenes/Player.tscn<>uid://d4jxknehmwhg6::::res://Assets/Characters/FemalePerson/PNG/Poses/character_femaleAdventurer_idle.png<>uid://ipwqha260tjg::::res://Scripts/Character/OtherCharacterController.gd<>uid://b7vehuti2dt1b::::res://Assets/Characters/FemalePerson/Tilesheet/character_femaleAdventurer_sheet.png
+Player.tscn::PackedScene::1040417875597000692::1748772392::0::1::::<><><>0<>0<><>::uid://cbh5hwnyblbb2::::res://Assets/Characters/FemalePerson/PNG/Poses/character_femalePerson_idle.png<>uid://bxssyvn4tsj2::::res://Assets/Characters/FemalePerson/Tilesheet/character_femalePerson_sheet.png<>uid://bqrvpn4coi61p::::res://Scripts/Character/CharacterController.gd
+World.tscn::PackedScene::7688898013960503653::1748772392::0::1::::<><><>0<>0<><>::uid://o28sbfaeqe0s::::res://Scenes/Player.tscn<>uid://blldu4721su0h::::res://Assets/TileSets/TX Tileset Grass.png<>uid://c3lbrx1oe37c7::::res://Assets/TileSets/TX Props.png<>uid://cju2e0ndokh7w::::res://Assets/TileSets/TX Tileset Wall.png<>uid://c0s7wiwhcta5i::::res://Scripts/Utils/ExportTileMap.gd
+::res://Scripts/::1748732164
+NetworkClient.gd::GDScript/GDScript::2868877610169830640::1748729294::0::1::::<>Node<><>0<>0<><>::
+TileMapManager.gd::GDScript::2616019508425994343::1748731823::0::1::::<>Node2D<><>0<>0<><>::
+::res://Scripts/Character/::1748771890
+CharacterController.gd::GDScript::3545839175190115231::1748771890::0::1::::<>CharacterBody2D<><>0<>0<><>::
+CharacterManager.gd::GDScript/GDScript::3650761781657544166::1748729294::0::1::::<>Node<><>0<>0<><>::
+OtherCharacterController.gd::GDScript/GDScript::593841130891135004::1748729294::0::1::::<>CharacterBody2D<><>0<>0<><>::
+::res://Scripts/Utils/::1748772117
+ExportTileMap.gd::GDScript::6566703943638488988::1748772117::0::1::::<>Node<><>0<>0<><>::
