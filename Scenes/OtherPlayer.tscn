@@ -78,6 +78,7 @@ animations = [{
 }]
 
 [node name="OtherPlayer" instance=ExtResource("1_0ikgl")]
+scale = Vector2(0.5, 0.5)
 script = ExtResource("2_uv5c4")
 mSpeed = 200.0
 
