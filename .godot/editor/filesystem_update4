@@ -1,3 +1,6 @@
 res://Scenes/World.tscn
 res://Scenes/Player.tscn
 res://Scenes/OtherPlayer.tscn
+res://Scripts/Character/OtherCharacterController.gd
+res://Scripts/TileMapManager.gd
+res://Scripts/Utils/ExportTileMap.gd

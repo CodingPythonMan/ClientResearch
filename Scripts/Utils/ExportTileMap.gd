@@ -1,6 +1,6 @@
 extends Node
 
-var mTilemapPath: NodePath = "../TileMapLayer"
+@onready var mTileMapLayer := get_node("../TileMapLayer")
 
 # 내보낼 JSON 파일의 경로 (예: 프로젝트 루트에 map_data.json 생성)
 @export var mOutputPath: String = "res://map_data.json"
@@ -11,33 +11,51 @@ func _ready():
 		print("이게 호출될 때가 있긴 한가?")
 		return
 
-	print("[ExportTileMap] 시도 중인 mTilemapPath =", mTilemapPath)
-	var tm_node := get_node_or_null(mTilemapPath)
-	if tm_node == null:
-		push_error("[ExportTileMap] 지정한 경로에 TileMapLayer 노드가 없습니다: %s" % str(mTilemapPath))
+	print("TileMapLayer 노드 이름:", mTileMapLayer.name)
+	if mTileMapLayer == null:
+		push_error("[ExportTileMap] 지정한 경로에 TileMapLayer 노드가 없습니다: %s" % mTileMapLayer.name)
 		return
 
-	#export_tilemap_to_json(tm_node)
+	# 가끔씩 맵 업데이트 할 때마다 한번씩 주석 풀어서 맵 파일 서버쪽 풀어도 좋겠다.
+	# export_tilemap_to_json(mTileMapLayer)
 
 func export_tilemap_to_json(tm_node: TileMapLayer):
-	# (1) 타일 하나의 픽셀 크기 가져오기
-	var cell_size: Vector2i = tm_node.tile_set.tile_size
-	# (2) 사용된 셀들의 직사각형 영역 (Rect2i) 가져오기
-	var used_rect: Rect2i = tm_node.get_used_rectangle()
-	#  각 요소 설명:
-	#    used_rect.position => (최소 cell 좌표.x, 최소 cell 좌표.y)
-	#    used_rect.size     => (가로 셀 개수, 세로 셀 개수)
-	var width_in_tiles  : int = used_rect.size.x
-	var height_in_tiles : int = used_rect.size.y
+	# (1) 셀 하나의 픽셀 크기
+	var cell_size : Vector2i = mTileMapLayer.tile_set.tile_size
 
-	# (3) JSON에 넣을 ‘맵 정보’ 딕셔너리 구성
+	# (2) 사용된 모든 셀 좌표를 가져온다
+	var used_cells : PackedVector2Array = mTileMapLayer.get_used_cells()
+	if used_cells.is_empty():
+		push_error("[ExportTileMap] 사용된 셀이 없어서 Rect 계산을 못 합니다.")
+		return
+
+	# (3) 최소/최대값 계산
+	var first_cell = used_cells[0]
+	var min_x = first_cell.x
+	var max_x = first_cell.x
+	var min_y = first_cell.y
+	var max_y = first_cell.y
+
+	for cell in used_cells:
+		min_x = min(min_x, cell.x)
+		max_x = max(max_x, cell.x)
+		min_y = min(min_y, cell.y)
+		max_y = max(max_y, cell.y)
+
+	# (4) origin / size 구하기
+	var origin_x = int(min_x)
+	var origin_y = int(min_y)
+	var width_in_tiles  = int(max_x - min_x + 1)
+	var height_in_tiles = int(max_y - min_y + 1)
+
+	# (5) map_info 딕셔너리 구성
 	var map_info = {
-	"origin":    { "x": used_rect.position.x, "y": used_rect.position.y },
-	"size":      { "width": width_in_tiles,   "height": height_in_tiles   },
-	"cell_size": { "x": cell_size.x,           "y": cell_size.y           }
+		"origin":    { "x": origin_x,    "y": origin_y },
+		"size":      { "width": width_in_tiles,   "height": height_in_tiles },
+		"cell_size": { "x": cell_size.x,         "y": cell_size.y }
 	}
 
-	# (4) 2차원 배열 0으로 초기화: height × width
+	# (6) 2D 배열 초기화 (0/1)
 	var tile_grid := []
 	for y in height_in_tiles:
 		var row := []
@@ -45,23 +63,21 @@ func export_tilemap_to_json(tm_node: TileMapLayer):
 			row.append(0)
 		tile_grid.append(row)
 
-	# (5) 실제 배치된 셀 좌표 목록 가져오기
-	var used_cells: PackedVector2Array = tm_node.get_used_cells()
+	# (7) 실제 사용된 셀들을 표시(1로 바꿈)
 	for cell in used_cells:
-		# cell: Vector2i 타입, 셀(격자) 좌표.
-		var local_x = int(cell.x - used_rect.position.x)
-		var local_y = int(cell.y - used_rect.position.y)
+		var local_x = int(cell.x - origin_x)
+		var local_y = int(cell.y - origin_y)
 		if local_x >= 0 and local_x < width_in_tiles and local_y >= 0 and local_y < height_in_tiles:
 			tile_grid[local_y][local_x] = 1
 
-	# (6) 최종 JSON 오브젝트
+	# (8) 최종 JSON 오브젝트
 	var final_dict = {
-	"map_info": map_info,
-	"tile_data": tile_grid
+		"map_info": map_info,
+		"tile_data": tile_grid
 	}
 
-	# (7) FileAccess를 통해 JSON 파일로 저장
-	var file: FileAccess = FileAccess.open(mOutputPath, FileAccess.WRITE)
+	# (9) FileAccess로 user://map_data.json에 저장
+	var file : FileAccess = FileAccess.open(mOutputPath, FileAccess.WRITE)
 	if file == null:
 		push_error("[ExportTileMap] JSON 파일을 열 수 없습니다: %s" % mOutputPath)
 		return
@@ -69,4 +85,5 @@ func export_tilemap_to_json(tm_node: TileMapLayer):
 	var json_string := JSON.stringify(final_dict, "\t")
 	file.store_string(json_string)
 	file.close()
-	print("[ExportTileMap] 맵 데이터를 JSON으로 저장했습니다: %s" % mOutputPath)
+
+	print("[ExportTileMap] 맵 데이터를 JSON으로 저장했습니다:", mOutputPath)

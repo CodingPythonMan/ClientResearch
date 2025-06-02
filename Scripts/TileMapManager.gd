@@ -1,10 +1,9 @@
-extends Node2D
+extends TileMapLayer
 
 @export var mTileSize: int = 16
 @export var mMapWidth: int = 200
 @export var mMapHeight: int = 200
 
-@onready var mTileMapLayer: TileMapLayer = get_node("../TileMapLayer")  # 🔹 부모 노드에서 자동으로 `TileMap`을 찾음
 @onready var mPlayer: CharacterBody2D = get_node("../Player")
 
 var mMapMinX

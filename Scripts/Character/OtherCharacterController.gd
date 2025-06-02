@@ -1,8 +1,7 @@
 extends CharacterBody2D
 
 @export var mSpeed: float = 200.0
-@onready var mSprite = $AnimatedSprite2D  
-@onready var mTileMapManager = get_node("../TileMap")
+@onready var mSprite = $AnimatedSprite2D
 
 var mDirection: int = 0
 var mIsMoving: bool = false
