@@ -1,0 +1,96 @@
+extends CharacterBody2D
+
+@export var speed: float = 200.0
+@export var map_json_path: String = "res://map_data.json"  # 내보낸 JSON 경로
+
+@onready var sprite = $AnimatedSprite2D
+var Protocol = preload("res://Addons/protobuf/Protocol.gd")
+
+# 맵 정보
+var origin: Vector2 = Vector2.ZERO
+var cell_size: Vector2 = Vector2.ONE
+var walkable_grid := []  # 2D 배열
+
+var mUniqueID : int = 0
+var mLastPosition = Vector2.ZERO
+var mIsMoving := false
+var mLastMoveDirection := Vector2.ZERO
+
+func _ready():
+    NetworkClient.SetPlayerNode(self)
+    _load_map_json()
+
+func _load_map_json():
+    var file = FileAccess.open(map_json_path, FileAccess.READ)
+    if file == null:
+        push_error("맵 JSON을 열 수 없습니다: %s" % map_json_path)
+        return
+    var data = JSON.parse_string(file.get_as_text())
+    file.close()
+    if data.error != OK:
+        push_error("맵 JSON 파싱 오류: %s" % data.error_string)
+        return
+
+    var dict = data.result
+    origin = Vector2(dict["map_info"]["origin"]["x"], dict["map_info"]["origin"]["y"])
+    cell_size = Vector2(dict["map_info"]["cell_size"]["x"], dict["map_info"]["cell_size"]["y"])
+    walkable_grid = dict["tile_data"]  # [row][col] 형태
+
+func _process(delta):
+    var move_vector = Vector2.ZERO
+
+    # 입력 체크
+    if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D):
+        move_vector.x += 1
+        sprite.flip_h = false
+        sprite.play("walk")
+    elif Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A):
+        move_vector.x -= 1
+        sprite.flip_h = true
+        sprite.play("walk")
+        
+    if Input.is_action_pressed("ui_up") or Input.is_key_pressed(KEY_W):
+        move_vector.y -= 1
+        sprite.play("walk")
+    elif Input.is_action_pressed("ui_down") or Input.is_key_pressed(KEY_S):
+        move_vector.y += 1
+        sprite.play("walk")
+
+    if move_vector == Vector2.ZERO:
+        mIsMoving = false
+        sprite.play("idle")
+
+    # 이동 전 walkable 검사
+    var dir_norm = move_vector.normalized()
+    if dir_norm != Vector2.ZERO and _can_walk(dir_norm, delta):
+        velocity = dir_norm * speed
+        move_and_slide()
+    else:
+        velocity = Vector2.ZERO
+        if dir_norm != Vector2.ZERO:
+            _play_blocked_feedback()
+
+    # 방향 변경 감지해서 패킷 전송
+    if dir_norm != mLastMoveDirection:
+        mLastMoveDirection = dir_norm
+        if dir_norm != Vector2.ZERO:
+            SendMovePacket(dir_norm)
+            mIsMoving = true
+        elif mIsMoving == false:
+            SendStopPacket()
+            mIsMoving = false
+
+# 한 프레임 이동 시뮬레이션으로 “갈 수 있는 타일인지” 체크
+func _can_walk(dir: Vector2, delta: float) -> bool:
+    var next_pos = global_position + dir * speed * delta
+    var tx = int((next_pos.x / cell_size.x) - origin.x)
+    var ty = int((next_pos.y / cell_size.y) - origin.y)
+    if ty < 0 or ty >= walkable_grid.size():
+        return false
+    if tx < 0 or tx >= walkable_grid[ty].size():
+        return false
+    return walkable_grid[ty][tx] == 1
+
+func _play_blocked_feedback():
+    # 벽에 부딪히는 효과음/애니메이션 등
+    sprite.play("idle")

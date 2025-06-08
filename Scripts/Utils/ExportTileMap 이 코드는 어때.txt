@@ -1,0 +1,64 @@
+func export_tilemap_to_json(tm_node: TileMapLayer):
+    var cell_size = tm_node.tile_set.tile_size
+    var used_cells = tm_node.get_used_cells()
+    if used_cells.is_empty():
+        push_error("[ExportTileMap] 사용된 셀이 없어서 Rect 계산을 못 합니다.")
+        return
+
+    # 최소/최대값 계산
+    var xs = used_cells.map(func(c): return c.x)
+    var ys = used_cells.map(func(c): return c.y)
+    var min_x = xs.min()
+    var max_x = xs.max()
+    var min_y = ys.min()
+    var max_y = ys.max()
+
+    var origin_x = int(min_x)
+    var origin_y = int(min_y)
+    var width_in_tiles  = int(max_x - min_x + 1)
+    var height_in_tiles = int(max_y - min_y + 1)
+
+    # map_info 구성 (기존과 동일)
+    var map_info = {
+        "origin":    { "x": origin_x,    "y": origin_y },
+        "size":      { "width": width_in_tiles,   "height": height_in_tiles },
+        "cell_size": { "x": cell_size.x,         "y": cell_size.y }
+    }
+
+    # 타일 데이터 초기화
+    var tile_grid := []
+    for y in range(height_in_tiles):
+        tile_grid.append([])
+        for x in range(width_in_tiles):
+            tile_grid[y].append(0)  # 기본값: 빈 공간(0)
+
+    # 셀별로 타일 ID 가져와서 metadata 검사
+    for cell in used_cells:
+        var gx = int(cell.x)
+        var gy = int(cell.y)
+        var local_x = gx - origin_x
+        var local_y = gy - origin_y
+        # 타일 ID (없으면 -1)
+        var tile_id = tm_node.get_cell(gx, gy)
+        if tile_id >= 0:
+            # 커스텀 데이터 가져오기
+            var meta = tm_node.tile_set.tile_get_metadata(tile_id)
+            # wall 이 true 면 비이동(0), 아니면 이동 가능(1)
+            var walkable = true
+            if meta.has("wall") and meta["wall"]:
+                walkable = false
+            tile_grid[local_y][local_x] = walkable ? 1 : 0
+
+    var final_dict = {
+        "map_info": map_info,
+        "tile_data": tile_grid
+    }
+
+    # 저장
+    var file = FileAccess.open(mOutputPath, FileAccess.WRITE)
+    if file == null:
+        push_error("[ExportTileMap] JSON 파일을 열 수 없습니다: %s" % mOutputPath)
+        return
+    file.store_string(JSON.stringify(final_dict, "\t"))
+    file.close()
+    print("[ExportTileMap] 맵 데이터를 JSON으로 저장했습니다:", mOutputPath)
